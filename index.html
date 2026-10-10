@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanjo Rock — Blog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDE6D6;
+    --paper-dim:#E2D8C0;
+    --ink:#211D15;
+    --rust:#B14A2C;
+    --moss:#4B5A3A;
+    --gold:#A9822E;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Lora', Georgia, serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.05;
+    background-image:
+      radial-gradient(circle at 20% 30%, #000 0, transparent 1px),
+      radial-gradient(circle at 60% 70%, #000 0, transparent 1px),
+      radial-gradient(circle at 80% 20%, #000 0, transparent 1px);
+    background-size: 3px 3px, 5px 5px, 4px 4px;
+  }
+  .wrap{
+    max-width:640px;
+    margin:0 auto;
+    padding:0 20px 80px;
+  }
+
+  /* Masthead */
+  header.masthead{
+    padding:0;
+    margin:0 -20px 0;
+    background:var(--ink);
+    line-height:0;
+  }
+  header.masthead img.logo{
+    display:block;
+    width:100%;
+    max-width:420px;
+    margin:0 auto;
+  }
+  .kicker-bar{
+    background:var(--ink);
+    padding:0 20px 24px;
+    margin:0 -20px 0;
+    text-align:center;
+  }
+  .kicker{
+    font-family:'Lora', serif;
+    font-style:italic;
+    font-size:.9rem;
+    color:#B7AE93;
+    margin:0 0 6px;
+  }
+  .subtitle{
+    margin:0;
+    font-size:1rem;
+    color:#D8D0B8;
+  }
+  .ig-link{
+    margin:12px 0 0;
+    font-size:.92rem;
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .ig-link a{
+    color:var(--gold);
+    text-decoration:none;
+    font-weight:600;
+    border-bottom:1px solid var(--gold);
+  }
+  @media (min-width:600px){
+    header.masthead{ margin:0 -32px 0; }
+    .kicker-bar{ margin:0 -32px 0; padding:0 32px 28px; }
+  }
+  .rule{
+    border:none;
+    border-top:3px solid var(--ink);
+    margin:22px 0 0;
+  }
+  .rule.thin{
+    border-top:1px solid #C9BE9F;
+  }
+
+  /* Next event banner */
+  .next-event{
+    margin-top:22px;
+    padding:18px 0;
+    border-bottom:1px solid #C9BE9F;
+  }
+  .next-event .label{
+    font-size:.78rem;
+    letter-spacing:.06em;
+    color:var(--rust);
+    margin:0 0 6px;
+    font-family:'Lora', serif;
+    font-weight:600;
+  }
+  .next-event .what{
+    font-family:'Anton', sans-serif;
+    font-weight:400;
+    font-size:1.5rem;
+    margin:0 0 4px;
+    line-height:1.15;
+  }
+  .next-event .when{
+    font-size:.95rem;
+    color:#4A4437;
+    margin:0;
+  }
+
+  /* Filters */
+  nav.filters{
+    display:flex;
+    gap:18px;
+    margin:26px 0 6px;
+    flex-wrap:wrap;
+  }
+  nav.filters button{
+    background:none;
+    border:none;
+    padding:4px 0;
+    font-family:'Lora', serif;
+    font-size:.92rem;
+    color:#6b6350;
+    cursor:pointer;
+    border-bottom:2px solid transparent;
+  }
+  nav.filters button.active{
+    color:var(--ink);
+    border-bottom-color:var(--rust);
+  }
+
+  /* Feed */
+  .feed{
+    margin-top:8px;
+  }
+  article.post{
+    padding:28px 0;
+    border-bottom:1px solid #C9BE9F;
+  }
+  article.post:first-of-type{
+    padding-top:20px;
+  }
+  .meta{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:8px;
+    font-size:.82rem;
+  }
+  .meta .date{
+    color:#6b6350;
+  }
+  .meta .cat{
+    color:var(--paper);
+    background:var(--moss);
+    padding:1px 8px;
+    border-radius:2px;
+    font-size:.72rem;
+    letter-spacing:.02em;
+  }
+  .meta .cat[data-cat="novedades"]{ background:var(--rust); }
+  .meta .cat[data-cat="historia"]{ background:var(--moss); }
+  .meta .cat[data-cat="bandas"]{ background:var(--gold); }
+
+  h2.post-title{
+    font-family:'Anton', sans-serif;
+    font-weight:400;
+    font-size:1.7rem;
+    line-height:1.05;
+    margin:0 0 10px;
+  }
+  .post-image{
+    width:100%;
+    display:block;
+    margin:0 0 14px;
+  }
+  .excerpt{
+    margin:0 0 10px;
+    color:#3a3527;
+  }
+  .post-body{
+    display:none;
+    margin-top:10px;
+  }
+  .post-body p{ margin:0 0 12px; }
+  .post-body.open{ display:block; }
+
+  .toggle{
+    background:none;
+    border:none;
+    padding:0;
+    font-family:'Lora', serif;
+    font-style:italic;
+    font-size:.92rem;
+    color:var(--rust);
+    cursor:pointer;
+  }
+
+  footer{
+    margin-top:40px;
+    padding-top:20px;
+    border-top:3px solid var(--ink);
+    font-size:.82rem;
+    color:#6b6350;
+  }
+
+  /* Merch */
+  section.merch{
+    margin-top:44px;
+    padding-top:28px;
+    border-top:3px solid var(--ink);
+  }
+  .merch h2.section-title{
+    font-family:'Anton', sans-serif;
+    font-weight:400;
+    font-size:2rem;
+    margin:0 0 6px;
+  }
+  .merch .section-sub{
+    margin:0 0 22px;
+    font-size:.92rem;
+    color:#4A4437;
+  }
+  .merch-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px 16px;
+  }
+  .merch-item{
+    display:flex;
+    flex-direction:column;
+  }
+  .merch-item .thumb{
+    width:100%;
+    aspect-ratio:1/1;
+    background:var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--paper);
+    font-family:'Anton', sans-serif;
+    font-size:1rem;
+    text-align:center;
+    padding:10px;
+    line-height:1.1;
+  }
+  .merch-item .thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .merch-item .name{
+    margin:10px 0 2px;
+    font-family:'Lora', serif;
+    font-weight:600;
+    font-size:.98rem;
+  }
+  .merch-item .price{
+    margin:0;
+    color:var(--rust);
+    font-size:.92rem;
+  }
+  .merch-item .note{
+    margin:2px 0 0;
+    font-size:.78rem;
+    color:#6b6350;
+  }
+  @media (min-width:600px){
+    .merch-grid{ grid-template-columns:repeat(3, 1fr); }
+  }
+
+  /* Sponsors */
+  section.sponsors{
+    margin-top:44px;
+    padding-top:28px;
+    border-top:3px solid var(--ink);
+  }
+  .sponsors h2.section-title{
+    font-family:'Anton', sans-serif;
+    font-weight:400;
+    font-size:2rem;
+    margin:0 0 6px;
+  }
+  .sponsors .section-sub{
+    margin:0 0 22px;
+    font-size:.92rem;
+    color:#4A4437;
+  }
+  .sponsors-list{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+  }
+  .sponsor-item{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:16px 0;
+    border-bottom:1px solid #C9BE9F;
+    text-decoration:none;
+    color:inherit;
+  }
+  .sponsor-item .logo{
+    width:88px;
+    height:88px;
+    flex:none;
+    background:var(--paper-dim);
+    border:1px solid #C9BE9F;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .sponsor-item .logo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .sponsor-item .logo span{
+    font-family:'Anton', sans-serif;
+    font-size:.7rem;
+    text-align:center;
+    color:#6b6350;
+    padding:4px;
+    line-height:1.1;
+  }
+  .sponsor-item .info .name{
+    font-family:'Lora', serif;
+    font-weight:600;
+    font-size:1rem;
+    margin:0 0 2px;
+  }
+  .sponsor-item .info .tagline{
+    font-size:.86rem;
+    color:#4A4437;
+    margin:0;
+  }
+  /* Variante para flyers que ya traen el nombre y los datos escritos */
+  .sponsor-item.image-only{
+    align-items:stretch;
+  }
+  .sponsor-item.image-only .logo{
+    width:220px;
+    height:220px;
+    background:none;
+    border:none;
+  }
+  .sponsor-item.image-only .logo img{
+    object-fit:contain;
+  }
+
+  /* Carrusel de auspiciantes */
+  .carousel-viewport{
+    overflow:hidden;
+    -webkit-mask-image:linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+            mask-image:linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+  }
+  .carousel-track{
+    display:flex;
+    align-items:center;
+    gap:22px;
+    width:max-content;
+    animation: carousel-scroll 34s linear infinite;
+  }
+  .carousel-viewport:hover .carousel-track{
+    animation-play-state:paused;
+  }
+  @keyframes carousel-scroll{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+  .carousel-item{
+    flex:none;
+    width:140px;
+    height:140px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+  }
+  .carousel-item img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+  }
+  .carousel-item span{
+    font-family:'Anton', sans-serif;
+    font-size:.72rem;
+    text-align:center;
+    color:#6b6350;
+    line-height:1.15;
+  }
+
+  /* Materiales */
+  section.materiales{
+    margin-top:44px;
+    padding-top:28px;
+    border-top:3px solid var(--ink);
+  }
+  .materiales h2.section-title{
+    font-family:'Anton', sans-serif;
+    font-weight:400;
+    font-size:2rem;
+    margin:0 0 6px;
+  }
+  .materiales .section-sub{
+    margin:0 0 18px;
+    font-size:.92rem;
+    color:#4A4437;
+  }
+  .materiales ul{
+    margin:0;
+    padding-left:20px;
+  }
+  .materiales li{
+    margin:0 0 8px;
+    font-size:.96rem;
+  }
+
+  @media (min-width:600px){
+    .wrap{ padding:0 32px 80px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <img class="logo" src="header-logo.jpg" alt="Sanjo Rock">
+  </header>
+  <div class="kicker-bar">
+    <p class="kicker">desde 2000 · San José, Entre Ríos</p>
+    <p class="subtitle">Historia, novedades y todo lo que va pasando en el camino de vuelta del festival.</p>
+    <p class="ig-link">
+      <a href="https://www.instagram.com/sanjorockoficial" target="_blank" rel="noopener">@sanjorockoficial</a>
+      <a href="https://youtube.com/@sanjorockoficial" target="_blank" rel="noopener">YouTube</a>
+    </p>
+  </div>
+  <hr class="rule">
+
+  <div class="next-event" id="nextEvent">
+    <!-- se completa con JS a partir de PROXIMOS_EVENTOS -->
+  </div>
+
+  <nav class="filters" id="filters">
+    <button data-filter="todos" class="active">Todos</button>
+    <button data-filter="historia">Historia</button>
+    <button data-filter="novedades">Novedades</button>
+    <button data-filter="bandas">Bandas</button>
+  </nav>
+
+  <main class="feed" id="feed"></main>
+
+  <section class="merch">
+    <h2 class="section-title">Merch</h2>
+    <p class="section-sub">Para bancar el festival y llevarte algo puesto.</p>
+    <div class="merch-grid" id="merchGrid"></div>
+  </section>
+
+  <section class="sponsors">
+    <h2 class="section-title">Auspiciantes</h2>
+    <p class="section-sub">Marcas que ya están bancando a Sanjo Rock.</p>
+    <div class="carousel-viewport">
+      <div class="carousel-track" id="advertisersList"></div>
+    </div>
+  </section>
+
+  <section class="sponsors">
+    <h2 class="section-title">Sumá tu marca</h2>
+    <p class="section-sub">Publicitá tu negocio en Sanjo Rock 2026 (14 de noviembre, Predio Multieventos). Para reservar tu lugar, comunicate con los organizadores.</p>
+    <div class="sponsors-list" id="sponsorsList"></div>
+  </section>
+
+  <section class="materiales">
+    <h2 class="section-title">Sumá materiales</h2>
+    <p class="section-sub">Para el Pre Sanjo Rock y Sanjo Rock, el equipo de decoración está necesitando conseguir estos materiales:</p>
+    <ul id="materialesList"></ul>
+  </section>
+
+  <footer>
+    Sanjo Rock — San José, Entre Ríos.
+  </footer>
+</div>
+
+<script>
+/* =========================================================
+   PRÓXIMOS EVENTOS
+   Para actualizar, editá esta lista. El primero que no haya
+   pasado todavía es el que se muestra arriba.
+   ========================================================= */
+const PROXIMOS_EVENTOS = [
+  { fecha: "2026-09-26", que: "Pre Sanjo Rock", donde: "Centro Cultural La Botica" },
+  { fecha: "2026-11-14", que: "Sanjo Rock 2026", donde: "Predio Multieventos, San José", nota: "Entrada libre y gratuita" },
+];
+
+/* =========================================================
+   POSTS DEL BLOG
+   Para agregar uno nuevo, copiá un bloque { ... } y sumalo
+   arriba de la lista (así aparece primero). categoria puede
+   ser: "historia", "novedades" o "bandas".
+   ========================================================= */
+const POSTS = [
+  {
+    fecha: "2026-10-09",
+    categoria: "bandas",
+    titulo: "¡Tenemos el line up completo!",
+    copete: "Subatómica, Encadenados, Malevo y Los Villamayor, Un Zahir, T3RNO, Mala Tempora y Chakota, el sábado 14 de noviembre.",
+    imagen: "tenemos-el-line-up-completo.jpg",
+    cuerpo: [
+      "¡Ya tenemos el line up completo de Sanjo Rock 2026! El sábado 14 de noviembre, en el Predio Multieventos de San José, suben al escenario: Subatómica, Encadenados, Malevo y Los Villamayor, Un Zahir, T3RNO, Mala Tempora y Chakota.",
+      "Como siempre, la entrada es libre y gratuita — te invitamos a colaborar con un alimento no perecedero. Este flyer lo hicimos junto a Barreta Producciones y la Municipalidad de San José. ¡Nos vemos ahí!"
+    ]
+  },
+  {
+    fecha: "2026-10-07",
+    categoria: "historia",
+    titulo: "Recuerdos: la segunda edición, verano del 2001",
+    copete: "El diario El Observador Regional le dedicó una tapa al Sanjo-Rock. Llegaron 16 bandas de Entre Ríos y Capital Federal.",
+    imagen: "recuerdos-la-segunda-edicion-verano-del-.jpg",
+    cuerpo: [
+      "Encontramos este recorte del diario El Observador Regional, del viernes 5 de enero de 2001, anunciando la segunda edición del \"Sanjo-Rock\", realizada al día siguiente.",
+      "Desde distintos lugares de Entre Ríos y de Capital Federal llegaron 16 bandas. El escenario se armó entre el Balneario y el Salvia, en San José, y la entrada fue gratuita — la misma esencia que seguimos defendiendo hoy, 25 años después.",
+      "<img class=\"post-image\" style=\"margin-top:14px\" src=\"recuerdos-segunda-edicion-nota-completa.jpg\" alt=\"Nota completa de El Observador Regional, 2001\">"
+    ]
+  },
+  {
+    fecha: "2026-10-07",
+    categoria: "historia",
+    titulo: "Más recuerdos: ediciones 2004 y 2005",
+    copete: "Un flyer de la tercera edición (2004) y una credencial de músico del 2005 — parte del archivo que fuimos juntando.",
+    imagen: "mas-recuerdos-ediciones-2004-y-2005.jpg",
+    cuerpo: [
+      "Seguimos desempolvando el archivo. La tercera edición de Sanjo Rock se hizo el 17 y 18 de enero de 2004, en el Balneario San José, dentro del marco de la Fiesta del Campamentista, con bandas de toda la provincia.",
+      "Y de 2005 guardamos esta credencial de músico, chiquita pero con mucha historia atrás."
+    ]
+  },
+  {
+    fecha: "2026-10-07",
+    categoria: "historia",
+    titulo: "El Sanjo Rock que se mudó al Polideportivo",
+    copete: "Un ticket de $3 para una edición de un 10 de marzo en el Polideportivo Municipal, con Egoístas, Nervios, Triumph y Bacteria.",
+    imagen: "el-sanjo-rock-que-se-mudo-al-polideporti.jpg",
+    cuerpo: [
+      "Otro pedacito de historia: un ticket de entrada de $3 para una edición de Sanjo Rock un 10 de marzo, a las 19 hs puntual, en el Polideportivo Municipal. Invitaba la Municipalidad de Villa San José, apoyaba la Subsecretaría de la Juventud de Entre Ríos.",
+      "Tocaban Egoístas, Ysteria, Nervios, Triumph, Tren Loco, Gravedad Mental y Bacteria, entre otras."
+    ]
+  },
+  {
+    fecha: "2026-10-07",
+    categoria: "historia",
+    titulo: "Sanjo Rock en el Club Santa Rosa",
+    copete: "Otra fecha del archivo: un domingo 24, entrada $5, con nueve bandas en la grilla.",
+    imagen: "sanjo-rock-en-el-club-santa-rosa.jpg",
+    cuerpo: [
+      "Este flyer es de otra edición, un domingo 24, en el Club Santa Rosa (San José, Dpto. Colón). Entrada $5, a las 20 hs.",
+      "La grilla de esa noche: Censura 23 (punk californiano, Colón), Nutilfait (grunge, C. del Uruguay), Borcegos (punk, Colón), Persistir (heavy, Bs. As.), La Morza (ska rock, San José), Exasperar (ñu metal, Paraná), Vennus (hard rock, Bs. As.), Bacteria (heavy thrash, San José) y Nervios (grunge, San José)."
+    ]
+  },
+  {
+    fecha: "2026-09-27",
+    categoria: "novedades",
+    titulo: "El Pre Sanjo Rock fue un éxito",
+    copete: "La Botica se llenó de amigos, superando nuestras expectativas. Gracias a todos los que se hicieron presentes.",
+    imagen: "el-pre-sanjo-rock-fue-un-exito.jpg",
+    cuerpo: [
+      "El Pre Sanjo Rock fue un éxito. La Botica se llenó de amigos, superando ampliamente nuestras expectativas.",
+      "Desde la organización queremos agradecer a todos los que se hicieron presentes y a los colaboradores por el gran trabajo que hicieron. Esto nos da un impulso enorme de cara a la gran fiesta que va a ser el 14 de noviembre."
+    ]
+  },
+  {
+    fecha: "2026-09-30",
+    categoria: "novedades",
+    titulo: "Le entregamos el reconocimiento a Claudio Gabis",
+    copete: "Javier Martínez le entregó en persona el diploma a Claudio Gabis, que además firmó su adhesión al pedido de Interés Municipal para el festival.",
+    imagen: "le-entregamos-el-reconocimiento-a-claudi.jpg",
+    cuerpo: [
+      "Claudio Gabis recibió de manos de Javier Martínez el diploma en reconocimiento a su carrera y trayectoria.",
+      "Además, Gabis firmó una nota de adhesión para apoyar que el festival Sanjo Rock sea declarado de Interés Municipal y Cultural. Un gesto enorme de alguien que marcó la historia del rock nacional."
+    ]
+  },
+  {
+    fecha: "2026-09-25",
+    categoria: "novedades",
+    titulo: "Este año sumamos una colecta solidaria",
+    copete: "En el Pre Sanjo Rock y en Sanjo Rock vamos a colaborar con la Escuela N.º 54 Carlos Sourigues juntando alimentos para el comedor infantil.",
+    cuerpo: [
+      "En esta edición del Pre Sanjo Rock y del Sanjo Rock vamos a estar colaborando con la Escuela N.º 54 Carlos Sourigues, haciendo una colecta de alimentos no perecederos para el comedor infantil.",
+      "Nuestros eventos son, como siempre, gratuitos y abiertos a toda la comunidad: no se cobra entrada. A cambio, invitamos a quienes puedan a acercar un alimento no perecedero para colaborar con esta iniciativa solidaria. Y si alguien quiere sumar más de uno, ¡va a ser más que bienvenido!",
+      "Entre todos podemos hacer que la música también sea una forma de ayudar. Gracias por acompañarnos.",
+      "— Comisión de Sanjo Rock, \"26 años de distorsión autóctona\""
+    ]
+  },
+  {
+    fecha: "2026-09-25",
+    categoria: "novedades",
+    titulo: "Reconocimiento a Claudio Gabis, guitarrista fundador de Manal",
+    copete: "Le acercamos este diploma en nombre del festival y de la comunidad musical de San José.",
+    imagen: "reconocimiento-a-claudio-gabis-guitarris.jpg",
+    cuerpo: [
+      "Claudio Gabis, guitarrista fundador de Manal —una de las bandas pioneras del rock en español— está de visita en la zona, y desde Sanjo Rock quisimos hacerle llegar este diploma de reconocimiento por su legado, que sigue inspirando a las bandas que hoy sostienen la escena del rock local.",
+      "Con el cariño y el respeto de quienes seguimos creyendo en la música como punto de encuentro. Gracias, Claudio."
+    ]
+  },
+  {
+    fecha: "2026-09-18",
+    categoria: "historia",
+    titulo: "El flyer de la primera edición, año 2000",
+    copete: "Así se anunciaba el Sanjo Rock original: sábado 29 de julio, entrada gratis, en el Centro de Jubilados y Pensionados Nacionales de San José.",
+    imagen: "el-flyer-de-la-primera-edicion-ano-2000.jpg",
+    cuerpo: [
+      "Encontramos el flyer de la primera edición de Sanjo Rock, allá por el año 2000: sábado 29 de julio, entrada gratis, en el Centro de Jubilados y Pensionados Nacionales de San José, a partir de las 20 hs, con bandas en vivo.",
+      "Mismo espíritu que estamos tratando de recuperar 26 años después: un festival gratuito, hecho por y para la comunidad, con el rock local como protagonista."
+    ]
+  },
+  {
+    fecha: "2026-09-17",
+    categoria: "novedades",
+    titulo: "Arrancó la difusión en los medios",
+    copete: "Nuestro encargado de prensa y difusión ya está recorriendo distintos medios para contar de qué se trata la vuelta del Sanjo Rock.",
+    cuerpo: [
+      "Ezequiel Ceriani (@cerianiezequiel) es el encargado de prensa y difusión del festival, y ya arrancó el recorrido por distintos medios de la zona para contar la noticia: Sanjo Rock vuelve el 14 de noviembre.",
+      "Si sos de algún medio local y querés sumarte a la cobertura, podés escribirnos por acá o por Instagram."
+    ]
+  },
+  {
+    fecha: "2026-09-15",
+    categoria: "novedades",
+    titulo: "Ya tenemos Instagram oficial: @sanjorockoficial",
+    copete: "Toda la info del festival, ahora también en Instagram. Entrada libre y gratuita.",
+    cuerpo: [
+      "Creamos la página oficial de Sanjo Rock 2026 en Instagram: @sanjorockoficial. Ahí vamos a ir subiendo la info del festival —fecha, ubicación, bandas confirmadas y las novedades que se vayan sumando— en paralelo a este blog.",
+      "Un recordatorio importante: el Sanjo Rock 2026 tiene entrada libre y gratuita. Nos vemos el sábado 14 de noviembre en el Predio Multieventos de San José, desde las 20 hs, con bandas en vivo."
+    ]
+  },
+  {
+    fecha: "2026-09-14",
+    categoria: "novedades",
+    titulo: "Sanjo Rock 2026: sábado 14 de noviembre",
+    copete: "Ya tiene fecha y lugar la vuelta del festival: 14 de noviembre en el predio multieventos de San José.",
+    cuerpo: [
+      "Después de meses de trabajo en el Plan Maestro de Reactivación, ya podemos confirmarlo: Sanjo Rock vuelve el sábado 14 de noviembre, en el predio multieventos de San José, Entre Ríos.",
+      "Va a haber bandas locales y de la zona, stands de artesanos, emprendedores y gastronomía, y el acompañamiento de la Fundación Las Camelias, que este año suma vasos reutilizables con el logo del festival como parte de su aporte.",
+      "En las próximas semanas vamos a ir contando quiénes tocan, cómo va armándose el predio y todo lo que hace falta para que este regreso salga como se lo merece. Antes, eso sí, hay una previa: el Pre Sanjo Rock."
+    ]
+  },
+  {
+    fecha: "2026-09-14",
+    categoria: "bandas",
+    titulo: "Lineup confirmado para el Pre Sanjo Rock",
+    copete: "Inmoral y Perros Sin Correa encabezan la noche del 26 de septiembre, con Rocío Brutomeza abriendo.",
+    imagen: "lineup-confirmado-para-el-pre-sanjo-rock.jpg",
+    cuerpo: [
+      "Ya está confirmado el lineup del Pre Sanjo Rock: tocan Inmoral y Perros Sin Correa, con Rocío Brutomeza abriendo la noche.",
+      "La cita es el sábado 26 de septiembre en el Centro Cultural La Botica. Una previa a puro rock local antes del festival grande del 14 de noviembre."
+    ]
+  },
+  {
+    fecha: "2026-09-10",
+    categoria: "novedades",
+    titulo: "Confirmado: Pre Sanjo Rock el 26 de septiembre",
+    copete: "Antes del festival grande, una previa en el Centro Cultural La Botica con bandas de la zona.",
+    cuerpo: [
+      "El sábado 26 de septiembre, en el Centro Cultural La Botica, hacemos el Pre Sanjo Rock: una noche con bandas de la zona para empezar a calentar motores de cara al festival del 14 de noviembre.",
+      "La idea de esta previa es simple: juntarnos antes, que las bandas locales tengan un escenario más, y que Sanjo Rock vuelva a sonar en San José de a poco, no de un día para el otro.",
+      "Pronto contamos quiénes son las bandas confirmadas."
+    ]
+  },
+  {
+    fecha: "2026-09-01",
+    categoria: "historia",
+    titulo: "Sanjo Rock vuelve: la historia detrás del regreso",
+    copete: "El festival nació en San José en el año 2000. Después de años sin hacerse, un grupo se propuso reactivarlo.",
+    cuerpo: [
+      "Sanjo Rock no es un festival nuevo: nació en San José, Entre Ríos, en el año 2000, en una época en la que el rock local necesitaba un escenario propio en el pueblo. Con los años, como pasa con tantos proyectos autogestionados, el festival dejó de hacerse.",
+      "Este 2026 nos propusimos reactivarlo. No como una copia de lo que fue, sino pensando de nuevo cada parte: qué bandas suben al escenario, cómo se organiza el predio, qué rol cumple el municipio, y qué queremos que sea Sanjo Rock de acá en más. Todo eso quedó por escrito en un Plan Maestro de Reactivación que venimos armando desde hace meses.",
+      "Este blog va a ir contando ese proceso: lo que se decide, lo que se arma, y también los recuerdos de lo que fue Sanjo Rock la primera vez, para quienes se lo perdieron y para quienes ya lo tienen guardado en la memoria."
+    ]
+  },
+];
+
+/* =========================================================
+   MERCH
+   Para agregar un producto, copiá un bloque { ... }. Si tenés
+   foto, poné la ruta o el link en "imagen"; si no, dejalo
+   vacío ("") y va a mostrar el nombre sobre fondo negro.
+   ========================================================= */
+const MERCH = [
+  { nombre: "Llavero Sanjo Rock", precio: "$ 3.000", imagen: "llavero-sanjo-rock.jpg" },
+  { nombre: "Vaso reutilizable", precio: "$ [definir]", imagen: "vaso-reutilizable.jpg" },
+  { nombre: "Remera Sanjo Rock 2026", precio: "$ [definir]", imagen: "remera-sanjo-rock-2026.jpg" },
+  { nombre: "Buzo Sanjo Rock 2026", precio: "$ [definir]", imagen: "buzo-sanjo-rock-2026.jpg" },
+];
+
+function renderMerch(){
+  const grid = document.getElementById("merchGrid");
+  grid.innerHTML = "";
+  MERCH.forEach(m => {
+    const item = document.createElement("div");
+    item.className = "merch-item";
+    item.innerHTML = `
+      <div class="thumb">${m.imagen ? `<img src="${m.imagen}" alt="${m.nombre}">` : m.nombre}</div>
+      <p class="name">${m.nombre}</p>
+      <p class="price">${m.precio}</p>
+      <p class="note">Para comprar, comunicate con los organizadores.</p>
+    `;
+    grid.appendChild(item);
+  });
+}
+
+/* =========================================================
+   AUSPICIANTES REALES
+   Para agregar uno, copiá un bloque { ... }. "imagen" es el
+   logo/flyer, "link" es opcional (web, Instagram o WhatsApp).
+   ========================================================= */
+const ADVERTISERS = [
+  {
+    nombre: "Lonera Brotzman",
+    tagline: "",
+    soloImagen: true,
+    imagen: "lonera-brotzman.jpg",
+    link: "https://wa.me/5493447408266"
+  },
+  {
+    nombre: "Pueblo Tattoo, Piercing & Clothes",
+    tagline: "",
+    soloImagen: true,
+    imagen: "pueblo-tattoo-piercing-clothes.jpg",
+    link: "https://www.instagram.com/pueblo.tt"
+  },
+  {
+    nombre: "Panadería La Moderna",
+    tagline: "",
+    soloImagen: true,
+    imagen: "panaderia-la-moderna.jpg",
+    link: ""
+  },
+  {
+    nombre: "Martin Graff — Consultor inmobiliario",
+    tagline: "",
+    soloImagen: true,
+    imagen: "martin-graff-consultor-inmobiliario.jpg",
+    link: ""
+  },
+  {
+    nombre: "Sean Eternos — Estudio de tatuajes",
+    tagline: "",
+    soloImagen: true,
+    imagen: "sean-eternos-estudio-de-tatuajes.jpg",
+    link: ""
+  },
+  {
+    nombre: "Mamá Cora Pizza-Pub",
+    tagline: "",
+    soloImagen: true,
+    imagen: "mama-cora-pizza-pub.jpg",
+    link: ""
+  },
+  {
+    nombre: "El Trueno Pizzería",
+    tagline: "",
+    soloImagen: true,
+    imagen: "el-trueno-pizzeria.jpg",
+    link: ""
+  },
+  {
+    nombre: "Flanders Kiosco",
+    tagline: "",
+    soloImagen: true,
+    imagen: "flanders-kiosco.jpg",
+    link: "https://www.instagram.com/flanderskiosco"
+  },
+  {
+    nombre: "Rotisería D.M.",
+    tagline: "",
+    soloImagen: true,
+    imagen: "rotiseria-d-m.jpg",
+    link: ""
+  },
+  {
+    nombre: "La Cervecería",
+    tagline: "",
+    soloImagen: true,
+    imagen: "la-cerveceria.jpg",
+    link: ""
+  },
+  {
+    nombre: "Candy Gomix",
+    tagline: "",
+    soloImagen: true,
+    imagen: "candy-gomix.jpg",
+    link: ""
+  },
+  {
+    nombre: "Deportivo Cali",
+    tagline: "",
+    soloImagen: true,
+    imagen: "deportivo-cali.jpg",
+    link: ""
+  },
+  {
+    nombre: "Pistacho",
+    tagline: "",
+    soloImagen: true,
+    imagen: "pistacho.jpg",
+    link: ""
+  },
+];
+
+function renderAdvertisers(){
+  const track = document.getElementById("advertisersList");
+  track.innerHTML = "";
+  // El carrusel se arma con la lista duplicada (x2), así el loop es
+  // perfecto: cuando termina de recorrer la primera copia, la animación
+  // vuelve al inicio exactamente donde empieza la segunda copia idéntica.
+  const items = [...ADVERTISERS, ...ADVERTISERS];
+  // Duración proporcional a la cantidad de logos, para que la velocidad
+  // de desplazamiento sea siempre pareja sin importar cuántos se sumen.
+  track.style.animationDuration = (ADVERTISERS.length * 3.2) + "s";
+  items.forEach(s => {
+    const tag = s.link ? "a" : "div";
+    const el = document.createElement(tag);
+    el.className = "carousel-item";
+    if (s.link) el.href = s.link;
+    el.innerHTML = s.imagen ? `<img src="${s.imagen}" alt="${s.nombre}">` : `<span>${s.nombre}</span>`;
+    track.appendChild(el);
+  });
+}
+
+/* =========================================================
+   SUMÁ TU MARCA (stands y publicidad para el evento del 14/11)
+   Para agregar un paquete, copiá un bloque { ... }.
+   ========================================================= */
+const SPONSORS = [
+  { nombre: "Stands para el evento del 14/11 — Artesanos, Emprendedores y Gastronómico", tagline: "", soloImagen: true, imagen: "stands-para-el-evento-del-14-11-artesano.jpg", link: "" },
+  { nombre: "Paquetes de publicidad para el evento del 14/11", tagline: "", soloImagen: true, imagen: "paquetes-de-publicidad-para-el-evento-de.jpg", link: "" },
+];
+
+function renderSponsors(){
+  const list = document.getElementById("sponsorsList");
+  list.innerHTML = "";
+  SPONSORS.forEach(s => {
+    const tag = s.link ? "a" : "div";
+    const el = document.createElement(tag);
+    el.className = "sponsor-item" + (s.soloImagen ? " image-only" : "");
+    if (s.link) el.href = s.link;
+    if (s.soloImagen){
+      el.innerHTML = `<div class="logo">${s.imagen ? `<img src="${s.imagen}" alt="${s.nombre}">` : `<span>${s.nombre}</span>`}</div>`;
+    } else {
+      el.innerHTML = `
+        <div class="logo">${s.imagen ? `<img src="${s.imagen}" alt="${s.nombre}">` : `<span>${s.nombre}</span>`}</div>
+        <div class="info">
+          <p class="name">${s.nombre}</p>
+          ${s.tagline ? `<p class="tagline">${s.tagline}</p>` : ""}
+        </div>
+      `;
+    }
+    list.appendChild(el);
+  });
+}
+
+/* =========================================================
+   MATERIALES NECESARIOS
+   Para agregar uno, sumá un string a la lista.
+   ========================================================= */
+const MATERIALES = [
+  "Pinturas (varios colores)",
+  "Instrumentos musicales en desuso (después se devuelven)",
+  "Maderas",
+  "Chapas",
+  "Platillos de batería que ya no se usen",
+  "Hierros / mallas",
+  "Chapa galvanizada",
+  "Electrodos",
+  "Aerosoles",
+  "Alambre",
+  "Friselina / tela negra / media sombra negra",
+];
+
+function renderMateriales(){
+  const list = document.getElementById("materialesList");
+  list.innerHTML = MATERIALES.map(m => `<li>${m}</li>`).join("");
+}
+
+/* ---------- Render ---------- */
+function fmtFecha(iso){
+  const d = new Date(iso + "T00:00:00");
+  return d.toLocaleDateString("es-AR", { day:"numeric", month:"long", year:"numeric" });
+}
+
+function renderNextEvent(){
+  const hoy = new Date();
+  hoy.setHours(0,0,0,0);
+  const proximo = PROXIMOS_EVENTOS
+    .filter(e => new Date(e.fecha + "T00:00:00") >= hoy)
+    .sort((a,b) => new Date(a.fecha) - new Date(b.fecha))[0];
+
+  const el = document.getElementById("nextEvent");
+  if(!proximo){ el.style.display = "none"; return; }
+  el.innerHTML = `
+    <p class="label">Próxima fecha</p>
+    <p class="what">${proximo.que}</p>
+    <p class="when">${fmtFecha(proximo.fecha)} · ${proximo.donde}</p>
+    ${proximo.nota ? `<p class="when">${proximo.nota}</p>` : ""}
+  `;
+}
+
+function renderFeed(filtro){
+  const feed = document.getElementById("feed");
+  feed.innerHTML = "";
+  const posts = filtro === "todos" ? POSTS : POSTS.filter(p => p.categoria === filtro);
+
+  posts.forEach((p, i) => {
+    const art = document.createElement("article");
+    art.className = "post";
+    const bodyId = `body-${i}`;
+    art.innerHTML = `
+      <div class="meta">
+        <span class="date">${fmtFecha(p.fecha)}</span>
+        <span class="cat" data-cat="${p.categoria}">${p.categoria}</span>
+      </div>
+      <h2 class="post-title">${p.titulo}</h2>
+      ${p.imagen ? `<img class="post-image" src="${p.imagen}" alt="${p.titulo}">` : ""}
+      <p class="excerpt">${p.copete}</p>
+      <button class="toggle" data-target="${bodyId}">Leer más</button>
+      <div class="post-body" id="${bodyId}">
+        ${p.cuerpo.map(par => `<p>${par}</p>`).join("")}
+      </div>
+    `;
+    feed.appendChild(art);
+  });
+
+  feed.querySelectorAll(".toggle").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const body = document.getElementById(btn.dataset.target);
+      const isOpen = body.classList.toggle("open");
+      btn.textContent = isOpen ? "Cerrar" : "Leer más";
+    });
+  });
+}
+
+document.getElementById("filters").addEventListener("click", (e) => {
+  if(e.target.tagName !== "BUTTON") return;
+  document.querySelectorAll("#filters button").forEach(b => b.classList.remove("active"));
+  e.target.classList.add("active");
+  renderFeed(e.target.dataset.filter);
+});
+
+renderNextEvent();
+renderFeed("todos");
+renderMerch();
+renderAdvertisers();
+renderSponsors();
+renderMateriales();
+</script>
+</body>
+</html>
