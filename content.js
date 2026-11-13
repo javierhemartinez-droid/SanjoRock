@@ -68,14 +68,14 @@ window.SANJO = {
   videos: { folder: 'videos_bandas', ext: 'mp4' },   // carpeta en el servidor y extensión de los videos
 
   lineup: [
-    { name: 'Subatómica',              logo: 'assets/logos/subatomica.png',   time: '', video: 'Subatómica SANJO ROCK' },
-    { name: 'Encadenados',             logo: 'assets/logos/encadenados.png',  time: '', video: 'Encadenados SANJO ROCK' },
-    { name: 'Malevo y Los Villamayor', logo: 'assets/logos/malevo.png',       time: '', video: 'malevo SANJO ROCK' },
-    { name: 'Un Zahir',                logo: 'assets/logos/un-zahir.png',     time: '', video: 'Un Zahir SANJO ROCK' },
-    { name: 'T3RNO',                   logo: 'assets/logos/terno.png',        time: '', video: 'T3RNO SANJO ROCK' },
-    { name: 'Mala Tempora',            logo: 'assets/logos/mala-tempora.png', time: '', video: 'Mala Tempora  SANJO ROCK' },
-    { name: 'Chakota',                 logo: 'assets/logos/chakota.png',      time: '', video: 'Chacota SANJO ROCK', featured: true, note: '30 años', post: "chakota-30-anos-de-punk-rock-ininterrumpido" }
-  ],
+  { name: 'Subatómica',              logo: 'assets/logos/subatomica.png',   time: '', video: 'Subatómica Sanjo Rock' },
+  { name: 'Encadenados',             logo: 'assets/logos/encadenados.png',  time: '', video: 'Encadenados Sanjo Rock' },
+  { name: 'Malevo y Los Villamayor', logo: 'assets/logos/malevo.png',       time: '', video: 'Malevo Sanjo Rock' },
+  { name: 'Un Zahir',                logo: 'assets/logos/un-zahir.png',     time: '', video: 'Un Zahir Sanjo Rock' },
+  { name: 'T3RNO',                   logo: 'assets/logos/terno.png',        time: '', video: 'T3rno Sanjo Rock' },
+  { name: 'Mala Tempora',            logo: 'assets/logos/mala-tempora.png', time: '', video: 'Mala Tempora Sanjo Rock' },
+  { name: 'Chakota',                 logo: 'assets/logos/chakota.png',      time: '', video: 'Chacota Sanjo Rock', featured: true, note: '30 años', post: "chakota-30-anos-de-punk-rock-ininterrumpido" }
+],
 
   /* ---------- Notas del blog ----------
      Para agregar una nota, copiá un bloque { ... } y sumalo al principio de la lista.
