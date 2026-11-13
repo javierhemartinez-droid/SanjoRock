@@ -75,7 +75,7 @@ window.SANJO = {
     { name: 'T3RNO',                   logo: 'assets/logos/terno.png',        time: '', video: 'T3rno Sanjo Rock' },
     { name: 'Mala Tempora',            logo: 'assets/logos/mala-tempora.png', time: '', video: 'Mala Tempora Sanjo Rock' },
     { name: 'Chakota',                 logo: 'assets/logos/chakota.png',      time: '', video: 'Chacota Sanjo Rock', featured: true, note: '30 años', post: "chakota-30-anos-de-punk-rock-ininterrumpido" }
-
+],
   /* ---------- Notas del blog ----------
      Para agregar una nota, copiá un bloque { ... } y sumalo al principio de la lista.
      cat: 'Historia' | 'Novedades' | 'Bandas'   ·   date: 'AAAA-MM-DD'
