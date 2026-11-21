@@ -107,6 +107,7 @@ window.SANJO = {
     alt: "El público en movimiento bajo las luces del predio",
     max: 420
    },
+   "¿Te perdiste algo o querés revivir los mejores momentos? Pasate por nuestro [Instagram](https://www.instagram.com/sanjorockoficial) para ver todos los videos, fotos y la repercusión de lo que fue esta gran fiesta.",
    "26 años de distorsión autóctona. ¡Gracias por ser parte!"
   ]
  },
