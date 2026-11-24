@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Galería — Sanjo Rock 2026</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="nav is-scrolled">
+    <div class="nav__bar">
+      <a class="nav__brand" href="index.html">
+        <img src="assets/logos/sanjorock.png" alt="Sanjo Rock" width="84" height="66">
+      </a>
+      <nav class="nav__links">
+        <a href="index.html#lineup">Line up</a>
+        <a href="galeria.html" class="is-active">Galería</a>
+        <a href="index.html#novedades">Novedades</a>
+        <a href="index.html#info">Info</a>
+      </nav>
+    </div>
+  </header>
+
+  <main style="padding-top: calc(var(--nav-h) + 40px);">
+    <section class="sec">
+      <header class="sec-head">
+        <span class="script sec-head__script" aria-hidden="true">Galería</span>
+        <p class="kicker">Postales de las bandas en vivo</p>
+        <h2>Sanjo Rock 2026</h2>
+      </header>
+      <div class="gallery" id="galleryGrid"></div>
+    </section>
+  </main>
+
+  <dialog class="lightbox" id="lightbox" aria-label="Imagen ampliada">
+    <img id="lightboxImg" alt="">
+  </dialog>
+
+  <script src="content.js"></script>
+  <script>
+    // Renderizado simple para la galería en su propia página
+    const D = window.SANJO;
+    if (D && D.bandGallery && D.bandGallery.items) {
+      const grid = document.getElementById('galleryGrid');
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightboxImg');
+
+      lb.addEventListener('click', () => lb.close());
+
+      D.bandGallery.items.forEach(it => {
+        const btn = document.createElement('button');
+        btn.className = 'gallery__item';
+        btn.type = 'button';
+        const img = document.createElement('img');
+        img.src = it.image;
+        img.loading = 'lazy';
+        btn.appendChild(img);
+        
+        btn.addEventListener('click', () => {
+          lbImg.src = it.image;
+          lb.showModal();
+        });
+        grid.appendChild(btn);
+      });
+    }
+  </script>
+</body>
+</html>
