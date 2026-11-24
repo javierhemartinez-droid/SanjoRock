@@ -67,17 +67,17 @@ window.SANJO = {
    cat: "Novedades",
    date: "2026-11-22",
    title: "¡Entregamos las donaciones del Sanjo Rock 2026!",
-   cover: "assets/img/donaciones-hodima.jpg",
+   cover: "assets/img/hodima.jpg",
    excerpt: "Las donaciones recolectadas en el festival ya fueron entregadas y recibidas con mucha alegría por sus destinatarios. ¡Muchas gracias a todos!",
    body: [
     "¡Queremos compartirles una de las mejores noticias que nos deja esta edición! Todo lo que juntamos entre todos gracias a su enorme solidaridad ya llegó a manos de quienes más lo necesitan.",
     "Las donaciones de alimentos no perecederos fueron entregadas y recibidas con muchísima alegría en HODIMA y Nacer al Sol.",
     {
-     img: "assets/img/donaciones-nacer-al-sol.jpg",
+     img: "assets/img/naceralsol.jpg",
      alt: "Entrega de donaciones en la institución"
     },
     "Ver las caras de felicidad y el agradecimiento de los chicos y de toda la gente que forma parte de estas instituciones nos llena el alma y le da sentido a todo el esfuerzo.",
-    "Gracias de corazón a cada una de las personas que se acercó al festival con su aporte y su buena onda. ¡Entre todos hicimos posible un Sanjo Rock lleno de música y solidaridad!",
+    "Gracias de corazón a cada una de las personas que se acercó al festival con su aporte y su buena onda y a los colaboradores que coordinaron la recolección y el trabajo de entregarlos. ¡Entre todos hicimos posible un Sanjo Rock lleno de música y solidaridad!",
     "¡Muchas gracias a todos!"
    ]
   },
