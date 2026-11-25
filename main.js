@@ -476,5 +476,5 @@
   initBackground();
   initNav();
   initReveal();
-  intiTV();
+  initTV();
 })();
