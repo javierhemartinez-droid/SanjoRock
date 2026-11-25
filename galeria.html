@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Galería — Sanjo Rock 2026</title>
+  <meta name="description" content="Postales de las bandas en vivo en Sanjo Rock 2026, San José, Entre Ríos.">
+  <meta name="theme-color" content="#050505">
+  <link rel="canonical" href="https://sanjorock.com.ar/galeria.html">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+  <div class="bg-veil" aria-hidden="true"></div>
+
+  <header class="nav is-scrolled" id="nav">
+    <div class="nav__bar">
+      <a class="nav__brand" href="index.html" aria-label="Sanjo Rock, inicio">
+        <img src="assets/logos/sanjorock.png" alt="Sanjo Rock" width="84" height="66">
+      </a>
+      <nav class="nav__links" id="menu" aria-label="Principal">
+        <a href="index.html#lineup">Line up</a>
+        <a href="galeria.html" class="is-active" aria-current="page">Galería</a>
+        <a href="index.html#info">Info</a>
+        <a href="index.html#novedades">Novedades</a>
+        <a href="index.html#auspiciantes">Auspiciantes</a>
+        <a href="index.html#sumate" class="nav__cta">Sumá tu marca</a>
+      </nav>
+      <button class="nav__toggle" id="menuToggle" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" style="padding-top: calc(var(--nav-h) + 24px);">
+    <section class="sec" style="padding-top: 40px;">
+      <header class="sec-head">
+        <span class="script sec-head__script" aria-hidden="true">Galería</span>
+        <p class="kicker" id="galText">Postales de las bandas en vivo</p>
+        <h1 style="margin:0"><span class="visually-hidden">Galería — </span><span class="gal-title">Sanjo Rock 2026</span></h1>
+      </header>
+      <div class="gallery" id="galleryGrid"></div>
+      <p class="posts__more" style="margin-top:40px"><a class="btn" href="index.html">← Volver al sitio</a></p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p class="foot__line">Sanjo Rock — desde 2000 · San José, Entre Ríos · <a href="https://sanjorock.com.ar">sanjorock.com.ar</a></p>
+  </footer>
+
+  <dialog class="lightbox lightbox--gal" id="lightbox" aria-label="Imagen ampliada">
+    <img id="lightboxImg" alt="">
+    <button class="lb__nav lb__prev" id="lbPrev" type="button" aria-label="Anterior">‹</button>
+    <button class="lb__nav lb__next" id="lbNext" type="button" aria-label="Siguiente">›</button>
+    <button class="lb__x" id="lbClose" type="button" aria-label="Cerrar">×</button>
+  </dialog>
+
+  <script src="content.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    var D = window.SANJO;
+    var nav = document.getElementById('nav'), toggle = document.getElementById('menuToggle');
+    function setOpen(o) { nav.classList.toggle('is-open', o); toggle.setAttribute('aria-expanded', String(o)); document.body.style.overflow = o ? 'hidden' : ''; }
+    toggle.addEventListener('click', function () { setOpen(!nav.classList.contains('is-open')); });
+    Array.prototype.forEach.call(document.querySelectorAll('.nav__links a'), function (a) { a.addEventListener('click', function () { setOpen(false); }); });
+
+    var G = D && D.bandGallery;
+    var items = (G && G.items) || [];
+    if (G && G.text) document.getElementById('galText').textContent = G.text;
+    var grid = document.getElementById('galleryGrid');
+    var lb = document.getElementById('lightbox'), lbImg = document.getElementById('lightboxImg');
+    var cur = 0;
+
+    function show(i) {
+      cur = (i + items.length) % items.length;
+      lbImg.src = items[cur].image;
+      lbImg.alt = items[cur].alt || 'Sanjo Rock 2026, foto ' + (cur + 1) + ' de ' + items.length;
+    }
+    items.forEach(function (it, i) {
+      var b = document.createElement('button');
+      b.className = 'gallery__item'; b.type = 'button';
+      b.setAttribute('aria-label', 'Ampliar foto ' + (i + 1));
+      var img = document.createElement('img');
+      img.src = it.image; img.alt = it.alt || ''; img.loading = 'lazy'; img.decoding = 'async';
+      /* si una foto no está subida todavía, se oculta en vez de mostrar un cuadro roto */
+      img.addEventListener('error', function () { b.hidden = true; });
+      b.appendChild(img);
+      b.addEventListener('click', function () { show(i); document.body.style.overflow = 'hidden'; lb.showModal(); });
+      grid.appendChild(b);
+    });
+    if (!items.length) grid.textContent = 'Muy pronto, nuevas fotos.';
+
+    document.getElementById('lbPrev').addEventListener('click', function (e) { e.stopPropagation(); show(cur - 1); });
+    document.getElementById('lbNext').addEventListener('click', function (e) { e.stopPropagation(); show(cur + 1); });
+    document.getElementById('lbClose').addEventListener('click', function () { lb.close(); });
+    lb.addEventListener('click', function (e) { if (e.target === lb || e.target === lbImg) lb.close(); });
+    lb.addEventListener('close', function () { document.body.style.overflow = ''; });
+    lb.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') show(cur - 1);
+      if (e.key === 'ArrowRight') show(cur + 1);
+    });
+    var sx = 0;
+    lb.addEventListener('touchstart', function (e) { sx = e.changedTouches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', function (e) { var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1)); }, { passive: true });
+  })();
+  </script>
+</body>
+</html>
