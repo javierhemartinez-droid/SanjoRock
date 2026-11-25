@@ -191,7 +191,7 @@ window.SANJO = {
 
  merch: { title: 'Merch', text: 'Para bancar el festival y llevarte algo puesto.', items: [] },
 
- sponsors: {
+  sponsors: {
   title: 'Auspiciantes',
   text: 'Quienes hacen posible Sanjo Rock 2026.',
   partnersLabel: 'Con el acompañamiento de',
@@ -201,8 +201,25 @@ window.SANJO = {
    { name: 'Fundación Las Camelias' }
   ],
   items: [
-   { name: "Lonera Brotzman", logo: "assets/img/lonera-brotzman.jpg", bg: "#ffffff" },
-   { name: "Pueblo Tattoo, Piercing & Clothes", logo: "assets/img/pueblo-tattoo-piercing-clothes.jpg", bg: "#000000" }
+   { name: "Lonera Brotzman", logo: "assets/img/lonera-brotzman.jpg", bg: "#ffffff", url: "https://wa.me/5493447408266" },
+   { name: "Pueblo Tattoo, Piercing & Clothes", logo: "assets/img/pueblo-tattoo-piercing-clothes.jpg", bg: "#000000", url: "https://www.instagram.com/pueblo.tt" },
+   { name: "Panadería La Moderna", logo: "assets/img/panaderia-la-moderna.jpg", bg: "#ffffff" },
+   { name: "Martin Graff — Consultor inmobiliario", logo: "assets/img/martin-graff-consultor-inmobiliario.jpg", bg: "#eef3ef" },
+   { name: "Sean Eternos — Estudio de tatuajes", logo: "assets/img/sean-eternos-estudio-de-tatuajes.jpg", bg: "#1b191a" },
+   { name: "Mamá Cora Pizza-Pub", logo: "assets/img/mama-cora-pizza-pub.jpg", bg: "#000000" },
+   { name: "El Trueno Pizzería", logo: "assets/img/el-trueno-pizzeria.jpg", bg: "#ffffff" },
+   { name: "Flanders Kiosco", logo: "assets/img/flanders-kiosco.jpg", bg: "#efefef", url: "https://www.instagram.com/flanderskiosco" },
+   { name: "Rotisería D.M.", logo: "assets/img/rotiseria-d-m.jpg", bg: "#000000" },
+   { name: "La Cervecería", logo: "assets/img/la-cerveceria.jpg", bg: "#ffffff" },
+   { name: "Candy Gomix", logo: "assets/img/candy-gomix.jpg", bg: "#2a1458" },
+   { name: "Deportivo Cali", logo: "assets/img/deportivo-cali.jpg", bg: "#fefefe" },
+   { name: "Pistacho", logo: "assets/img/pistacho.jpg", bg: "#000000" },
+   { name: "Trucha", logo: "assets/img/trucha.jpg", bg: "#000000" },
+   { name: "Carnicería Martín", logo: "assets/img/carniceria-martin.jpg", bg: "#ffffff" },
+   { name: "Farmacia Perez", logo: "assets/img/farmacia-perez.jpg", bg: "#f6f6f6" },
+   { name: "La Bolilla que faltaba", logo: "assets/img/la-bolilla-que-faltaba.jpg", bg: "#fffdfe" },
+   { name: "Óptica Frei", logo: "assets/img/optica-frei.jpg", bg: "#d3eef2" },
+   { name: "YVY Cosmética Natural", logo: "assets/img/yvy-cosmetica-natural.jpg", bg: "#c6daff" }
   ]
  },
 
