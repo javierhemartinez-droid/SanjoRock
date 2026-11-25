@@ -413,6 +413,53 @@
     toggle.addEventListener('click', () => setOpen(!nav.classList.contains('is-open')));
     $$('.nav__links a').forEach(a => a.addEventListener('click', () => setOpen(false)));
   }
+  function initTV() {
+    const tv = $('#tv'), tuner = $('#tuner');
+    if (!tv || !tuner || !D.videos) return;
+    const channels = D.lineup.filter(b => b.video);
+    if (!channels.length) return;
+
+    const vid = $('#tvVideo'), chLabel = $('#tvCh'), osd = $('#tvOsd'), noSig = $('#tvNoSig'), list = $('#tvList');
+    let idx = 0, marathon = true;
+
+    const btnOpen = el('button', { class: 'btn btn--primary', type: 'button', onclick: () => openTV(0) }, '▶ Ver videos en Sanjo TV');
+    tuner.append(btnOpen);
+    tuner.hidden = false;
+
+    channels.forEach((b, i) => {
+      list.append(el('button', { class: 'chip-btn', type: 'button', onclick: () => tune(i) }, `${i + 1}. ${b.name}`));
+    });
+
+    function tune(i) {
+      idx = (i + channels.length) % channels.length;
+      const b = channels[idx];
+      noSig.hidden = true;
+      vid.hidden = false;
+      chLabel.textContent = `CH ${String(idx + 1).padStart(2, '0')} · ${b.name}`;
+      osd.textContent = `CANAL ${idx + 1}`;
+      $$('.chip-btn', list).forEach((btn, k) => btn.setAttribute('aria-pressed', String(k === idx)));
+      vid.src = `${D.videos.folder}/${encodeURIComponent(b.video)}.${D.videos.ext}`;
+      vid.play().catch(() => {});
+    }
+
+    function openTV(i = 0) {
+      document.body.style.overflow = 'hidden';
+      if (!tv.open) tv.showModal();
+      tune(i);
+    }
+
+    vid.addEventListener('error', () => { vid.hidden = true; noSig.hidden = false; });
+    vid.addEventListener('ended', () => { if (marathon) tune(idx + 1); });
+    $('#tvPrev').addEventListener('click', () => tune(idx - 1));
+    $('#tvNext').addEventListener('click', () => tune(idx + 1));
+    $('#tvAuto').addEventListener('click', e => {
+      marathon = !marathon;
+      e.currentTarget.setAttribute('aria-pressed', String(marathon));
+      e.currentTarget.innerHTML = `Maratón: <b>${marathon ? 'sí' : 'no'}</b>`;
+    });
+    $('#tvClose').addEventListener('click', () => { vid.pause(); tv.close(); });
+    tv.addEventListener('close', () => { vid.pause(); document.body.style.overflow = ''; });
+  }
 
   renderText();
   renderMarquee();
@@ -429,4 +476,5 @@
   initBackground();
   initNav();
   initReveal();
+  intiTV();
 })();
